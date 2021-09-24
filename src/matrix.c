@@ -6,7 +6,7 @@
 /*   By: ydemange <ydemange@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 17:15:23 by ydemange          #+#    #+#             */
-/*   Updated: 2021/09/24 17:39:16 by ydemange         ###   ########.fr       */
+/*   Updated: 2021/09/24 17:57:53 by ydemange         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,6 @@ void	set_mat4_identity(mat4 mat)
 
 void	translate_mat4(mat4 mat, float x, float y, float z)
 {
-
 	mat[12] += x;
 	mat[13] += y;
 	mat[14] += z;

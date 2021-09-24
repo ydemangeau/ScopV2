@@ -6,7 +6,7 @@
 /*   By: ydemange <ydemange@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 17:15:26 by ydemange          #+#    #+#             */
-/*   Updated: 2021/09/24 17:41:24 by ydemange         ###   ########.fr       */
+/*   Updated: 2021/09/24 17:59:03 by ydemange         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,6 @@ static size_t	element_type(const char *str, size_t current)
 	return (number_vertex == 3 ? 1 : 2);
 }
 
-
-
 void    size_configure(t_all *al, const char *content)
 {
     size_t  current;
@@ -77,7 +75,7 @@ void    size_configure(t_all *al, const char *content)
 	{
 		switch (content[current])
 		{
-
+			/* Skip des inutiles */
 			case 'v' :
 				++al->data.vertex_size;
 				break ;
@@ -97,7 +95,7 @@ void    size_configure(t_all *al, const char *content)
 		}
 		current += next_line(content, current);
 	}
-	/* Allocation des esapaces de donnes */
+	/* Allocation des espaces de donnes */
 	al->data.vertex_size *= 4 * sizeof(float);
 	al->data.element_size *= 3 * sizeof(unsigned int);
 	al->data.vertex = ft_memalloc((size_t)al->data.vertex_size +1);
