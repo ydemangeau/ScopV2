@@ -90,7 +90,6 @@ static void	key_func(t_all *al, SDL_Event *event)
 	}
 }
 
-
 static void	dtime(t_all *al)
 {
 	al->time.current = usec_timestamp();
@@ -105,10 +104,7 @@ static void	dtime(t_all *al)
 	al->time.delta_sec = al->time.delta / 1000000.0f;
 	al->time.last = al->time.current;
 	al->time.elapsed += al->time.delta;
-	++al->time.elapsed_frames;
 }
-
-
 
 void		main_loop(t_all *al)
 {

@@ -36,13 +36,11 @@
 # define OPENGL_VERSION_MAJOR	4
 # define OPENGL_VERSION_MINOR	1
 
-
 # define WIN_TITLE "Scop"
 # define WIN_SIZEX	1280
 # define WIN_SIZEY	720
 # define WIN_POSX	100
 # define WIN_POSY	50
-
 
 # define CAMERA_FOV		60.0f
 # define CAMERA_NEAR	1.0f
@@ -91,23 +89,13 @@ typedef struct	s_data
 {
 	GLsizeiptr	element_size;
 	GLuint		*element;
-
-
 	GLfloat		*vertex;
 	GLsizeiptr	vertex_size;
-
-
-	//float		fov;		/* radiant fov */
 
 	float		blending;	/* blend facet and texture colors */
 	unsigned	animation_status;
 
-
-
 	t_matrix	matrix;
-
-
-	
 }				t_data;
 
 typedef struct	s_attribute
@@ -121,11 +109,8 @@ typedef struct	s_shader
 	GLuint 			vertex;
 	GLuint 			geometry;
 	GLuint 			fragment;
-
 	GLuint			program;
 }				t_shader;
-
-
 
 typedef struct	s_time
 {
@@ -135,7 +120,6 @@ typedef struct	s_time
 	unsigned long	target;
 	unsigned long	delta;
 	float			delta_sec;
-
 	unsigned long	elapsed; /* can lag behind real time if frame time >1sec */
 	unsigned long	elapsed_frames;
 }				t_time;
@@ -145,50 +129,39 @@ typedef struct	s_all
 	/* SDL */
 	SDL_Window		*window;
 	SDL_GLContext	glcontext;
-
 	/* OpenGL */
 	GLuint			vao; /* Vertex Array Object */
 	GLuint			vbo; /* Vertex Buffer Object */
 	GLuint			ebo; /* Element Buffer Object */
+	
 	t_shader		shader;
 	t_attribute		attribute;
-
-	
-	
 	GLuint 			texture;
-	
 	t_uniform		uniform;
-
 	t_data			data;
-
 	t_time			time;
 	t_keys			keys;
 	int				auto_rotate;
 }				t_all;
 
-
-int		quit(t_all *al);
-void	init(t_all *al, char *filename);
-void	main_loop(t_all *al);
-
+int				quit(t_all *al);
+void			init(t_all *al, char *filename);
+void			main_loop(t_all *al);
 
 /*Shader*/
-void	init_shader(t_all *al);
+void			init_shader(t_all *al);
 
-void	parser(t_all *al, char *filename);
-
+void			parser(t_all *al, char *filename);
 
 /* utils */
 char			*read_file(const char *filename);
 unsigned long	usec_timestamp(void);
 
-
 /* Matrix */
-
-void	set_mat4_identity(mat4 mat);
-void	rotate_mat4(mat4 mat, float x, float y, float z);
-void	translate_mat4(mat4 mat, float x, float y, float z);
-void	set_mat4_projection(mat4 mat, float fov, float near, float far, float aspect);
+void			set_mat4_identity(mat4 mat);
+void			rotate_mat4(mat4 mat, float x, float y, float z);
+void			translate_mat4(mat4 mat, float x, float y, float z);
+void			set_mat4_projection(mat4 mat, float fov, float near, float far, float aspect);
 
 /* texture */
 float			*load_bmp(const char *filename);

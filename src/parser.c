@@ -13,48 +13,48 @@
 #include "scop.h"
 
 /*saut de ligne */
-static size_t    next_line(const char *str, size_t current)
+static size_t    next_line(const char *content, size_t cur)
 {
 	size_t	next;
 
 	next = 0;
-	while (str[current + next] != 0 && str[current + next] != '\n')
+	while (content[cur + next] != 0 && content[cur + next] != '\n')
 		++next;
-	if (str[current + next] != 0)
+	if (content[cur + next] != 0)
 		++next;
 	return (next);
 }
 
 /* Skip spaces */
-static size_t	next_char(const char *str, size_t current)
+static size_t	next_char(const char *content, size_t cur)
 {
 	size_t	next;
 
 	next = 0;
-	while (str[current + next] != 0 && str[current + next] == ' ')
+	while (content[cur + next] != 0 && content[cur + next] == ' ')
 		++next;
 	return (next);
 }
 
 /* to differenciate triangles from rectangle elements */
-static size_t	element_type(const char *str, size_t current)
+static size_t	element_type(const char *content, size_t cur)
 {
 	int	number_vertex;
 
 	number_vertex = 0;
-	current += next_char(str, current);
-	while (str[current] != 0 && str[current] != '\n')
+	cur += next_char(content, cur);
+	while (content[cur] != 0 && content[cur] != '\n')
 	{
 		++number_vertex;
-		while (isdigit(str[current]))
-			current++;
-		if (str[current] == 0 || str[current] == ' ')
-			current += next_char(str, current);
-		else if (str[current] == '\n')
+		while (isdigit(content[cur]))
+			cur++;
+		if (content[cur] == 0 || content[cur] == ' ')
+			cur += next_char(content, cur);
+		else if (content[cur] == '\n')
 			break ;
 		else
 		{
-			printf("Parsing error, invalid element [%c]\n", str[current]);
+			printf("Parsing error, invalid element [%c]\n", content[cur]);
 			exit(0);
 		}
 	}
@@ -68,19 +68,18 @@ static size_t	element_type(const char *str, size_t current)
 
 void    size_configure(t_all *al, const char *content)
 {
-    size_t  current;
+    size_t  cur;
 
-	current = 0;
-	while (content[current])
+	cur = 0;
+	while (content[cur])
 	{
-		switch (content[current])
+		switch (content[cur])
 		{
-			/* Skip des inutiles */
 			case 'v' :
 				++al->data.vertex_size;
 				break ;
 			case 'f' :
-				al->data.element_size += element_type(content, current + 1);
+				al->data.element_size += element_type(content, cur + 1);
 				break ;
 			case '#' :
 			case 'm' :
@@ -90,10 +89,10 @@ void    size_configure(t_all *al, const char *content)
 			case '\n' :
 				break ;
 			default :
-				printf("Parsing error: invalid line >%c<\n", content[current]);
+				printf("Parsing error: invalid line >%c<\n", content[cur]);
 				quit(al);
 		}
-		current += next_line(content, current);
+		cur += next_line(content, cur);
 	}
 	/* Allocation des espaces de donnes */
 	al->data.vertex_size *= 4 * sizeof(float);
@@ -110,8 +109,8 @@ void    parse_vertex(t_all *al, const char *content, size_t cur)
 
 	unsigned color_index = 0;
 	static unsigned color = 0;
-
-    cur += next_char(content, ++cur);
+	++cur;
+    cur += next_char(content, cur);
     while (content[cur] != 0 && content[cur] != '\n')
 	{
 		al->data.vertex[vertex_index + color_index] = (GLfloat)atof(content + cur);
@@ -140,34 +139,35 @@ void    parse_vertex(t_all *al, const char *content, size_t cur)
 }
 
 /* creation des element */
-static void		parse_element(t_all *al, const char *str, size_t current)
+static void		parse_element(t_all *al, const char *content, size_t cur)
 {
-	static unsigned	current_element = 0;
+	static unsigned	cur_element = 0;
 	GLuint			tmp[4];
 	int				number_vertex;
 
 	number_vertex = 0;
-	current += next_char(str, ++current);
-	while (str[current] != 0 && str[current] != '\n')
+	++cur;
+	cur += next_char(content, cur);
+	while (content[cur] != 0 && content[cur] != '\n')
 	{
-		tmp[number_vertex] = (GLuint)atoi(str + current);
+		tmp[number_vertex] = (GLuint)atoi(content + cur);
 		number_vertex++;
-		while (isdigit(str[current]))
-			current++;
-		current += next_char(str, current);
+		while (isdigit(content[cur]))
+			cur++;
+		cur += next_char(content, cur);
 	}
 	for (unsigned i = 0; i < 3; ++i)
 	{
-		al->data.element[current_element + i] = tmp[i] -1;
+		al->data.element[cur_element + i] = tmp[i] -1;
 	}
-	current_element += 3;
+	cur_element += 3;
 	/* Si 4 valeur cree un nouvelle element */
 	if (number_vertex == 4)
 	{
 		for (unsigned i = 0; i < 3; ++i){
-			al->data.element[current_element + i] = tmp[(i + 2) % 4] -1;
+			al->data.element[cur_element + i] = tmp[(i + 2) % 4] -1;
 		}
-		current_element += 3;
+		cur_element += 3;
 	}
 }
 

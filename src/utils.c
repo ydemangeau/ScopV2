@@ -12,7 +12,6 @@
 
 #include "scop.h"
 
-
 /* returns a real time microsecond timestamp since epoch */
 unsigned long	usec_timestamp(void)
 {
@@ -47,7 +46,6 @@ char			*read_file(const char *filename)
 	close(fd);
 	return (content);
 }
-
 
 float			*load_bmp(const char *filename)
 {

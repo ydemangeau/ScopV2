@@ -33,9 +33,6 @@ static void	init_vbo(t_all *al)
 
     /* copy data to buffer */
  	glBufferData(GL_ARRAY_BUFFER, al->data.vertex_size, al->data.vertex, GL_STATIC_DRAW);
-	 for (unsigned i = 0;i< (al->data.vertex_size /4)/4; i++){
-		printf("%f %f %f - %f\n",al->data.vertex[i*4],al->data.vertex[i*4+1],al->data.vertex[i*4+2],al->data.vertex[i*4+3]);
-	 }
 }
 
 /* Element buffer Object */
@@ -107,9 +104,9 @@ static void	init_uniform(t_all *al)
 
 static void	center_model(t_all *al)
 {
-	float	tmpx;
-	float	tmpy;
-	float	tmpz;
+	float	x;
+	float	y;
+	float	z;
 	/* initialisation des valeur +/- infini*/
 	float	min[3] = {INFINITY, INFINITY, INFINITY};
 	float	max[3] = {-INFINITY, -INFINITY, -INFINITY};
@@ -117,23 +114,23 @@ static void	center_model(t_all *al)
 	for (unsigned i = 0; i < (unsigned)al->data.vertex_size /
 		(4 * sizeof(float)); ++i)
 	{
-		tmpx = al->data.vertex[i * 4 + 0]; /* x */
-		tmpy = al->data.vertex[i * 4 + 1]; /* y */
-		tmpz = al->data.vertex[i * 4 + 2]; /* z */
+		x = al->data.vertex[i * 4 + 0]; /* x */
+		y = al->data.vertex[i * 4 + 1]; /* y */
+		z = al->data.vertex[i * 4 + 2]; /* z */
 
 		/* configuration avec les valeur les plus basse des vertex */
-		if (tmpx < min[0])
-			min[0] = tmpx;
-		if (tmpx > max[0])
-			max[0] = tmpx;
-		if (tmpy < min[1])
-			min[1] = tmpy;
-		if (tmpy > max[1])
-			max[1] = tmpy;
-		if (tmpz < min[2])
-			min[2] = tmpz;
-		if (tmpz > max[2])
-			max[2] = tmpz;
+		if (x < min[0])
+			min[0] = x;
+		if (x > max[0])
+			max[0] = x;
+		if (y < min[1])
+			min[1] = y;
+		if (y > max[1])
+			max[1] = y;
+		if (z < min[2])
+			min[2] = z;
+		if (z > max[2])
+			max[2] = z;
 	}
 	/* Application des modifications au model */
 	translate_mat4(al->data.matrix.model,

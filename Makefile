@@ -25,7 +25,7 @@ CC = gcc
 
 FL_OPTI = -O2
 #-O3 -flto
-FLAGS = -Wall -Wextra -Wconversion -Wunused -Wuninitialized $(FL_OPTI)
+FLAGS = -Wall -Wextra -Werror -Wconversion -Wunused -Wuninitialized $(FL_OPTI)
 LFLAGS = $(FLAGS)
 CFLAGS = -c $(FLAGS)
 
@@ -79,7 +79,7 @@ $(OBJ_DIR)%.o : $(SRC_DIR)%.c $(HEADERS)
 
 $(OBJ_DIR) :
 	@mkdir $(OBJ_DIR)
-	@echo "$(GREEN)Object directory created sir !$(RESET)"
+	@echo "$(GREEN)Object directory created!$(RESET)"
 
 $(FT_LIB):
 	@make -C $(FT)
